@@ -6,6 +6,14 @@ from enum import Enum
 from PIL import ImageGrab, ImageTk, Image
 from pathlib import Path
 import os
+import IPython
+
+from skimage import io
+import matplotlib.pyplot as plt
+
+
+IPython.start_ipython()
+%matplotlib qt
 
 class WindowType:
     NONE = 1
@@ -157,66 +165,9 @@ def decrypt(path):
     col = (244, 237, 249, 255)
 
     im = Image.open(path)
-    im.load()
-    img = ImageTk.PhotoImage(im)
-
-    pix_vals = im.getdata()
-
-    if pix_vals[numsToIndex(im, (29, 0))] == col and pix_vals[numsToIndex(im, (0, 35))] == col and pix_vals[numsToIndex(im, (0, 8))] == col:
-        dTk.deiconify()
-        dTk.wm_title("Decrypted Message")
-
-        l = Canvas(dTk, width=tk.winfo_width(), height=106)
-
-        im2 = Image.new('RGB', (dTk.winfo_width(), tk.winfo_height()))
-        im2.putdata(pix_vals)
-
-        f = True
-        amount = 1
-
-        colors = []
-
-        while f:
-            if pix_vals[numsToIndex(im, (0, 75 + amount))] == col:
-                amount += 1
-            else:
-                f = False
-
-        for i in range(0, amount):
-            colors.append(pix_vals[int((im.width * (im.height / 2)) + (im.width / amount / 2) + ((i - 1) * (im.width / amount)) )])
-
-        change = colors.pop(0)
-        colors.append(change)
-
-        for ind, val in enumerate(colors):
-            color = '#%02x%02x%02x' % (val[0], val[1], val[2])
-
-            l.create_rectangle(dTk.winfo_width() / len(colors) * (ind), 0, dTk.winfo_width() / len(colors) * (ind + 1), dTk.winfo_height(), fill=color)
-
-        for (a, b, c, d) in colors:
-            print(a)
-            print(b)
-            print(c)
-
-            print(chr(a))
-            print(chr(b))
-
-            if not c == 0:
-                print(chr(c))
-
-        l.pack()
-    else:
-        lab = Label(tk, text = "Image is not an encrypted message in color", fg = "red")
-        lab.pack()
-
-        panel = Label(dTk, image = img)
-        panel.image = img
-        panel.pack()
-
-        dTk.wm_title("Failure Image")
-        dTk.deiconify()
-
-        return
+    im.imshow(im)
+    plt.show()
+    return
 
 def saveImage(root, widget):
     global saveNums
