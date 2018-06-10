@@ -14,3 +14,9 @@ U => 85     <br>
 B => 66<br>
 
 RGB ( 71, 73, 84 )  <br>    RGB ( 74, 85, 66 )
+
+<br><br>
+
+After rereading this code it has come to my attention that it is a nightmare.
+<br>
+I will definitely need to rewrite this with comments.
